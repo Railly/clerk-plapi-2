@@ -44,11 +44,69 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `bun build` | Build for production |
 | `bun start` | Start production server |
 | `bun lint` | Run Biome linter |
-| `bun format` | Format code with Biome |
+| `bun test` | Run Playwright tests |
+| `bun test:ui` | Run tests in UI mode |
+| `bun test:headed` | Run tests with visible browser |
+
+## Proxy Configuration
+
+This app uses Clerk's Frontend API proxy for production. The proxy configuration:
+
+1. **Middleware** (`src/proxy.ts`): Forwards `/__clerk/*` requests to `https://frontend-api.clerk.dev`
+2. **ClerkProvider** (`src/app/layout.tsx`): Sets `proxyUrl` prop
+3. **Environment**: `NEXT_PUBLIC_CLERK_PROXY_URL=https://clerk-plapi-2.crafter.run/__clerk`
+
+**Important**: After deployment, configure the Proxy URL in [Clerk Dashboard → Domains → Advanced](https://dashboard.clerk.com/~/domains)
+
+## Agent Tasks Testing
+
+Agent Tasks allow creating pre-authenticated sessions for testing and automation.
+
+### Setup
+
+```bash
+# Copy environment template
+cp .env.example .env.local
+
+# Add your Clerk keys and test user ID
+# Get TEST_USER_ID from Clerk Dashboard → Users
+```
+
+### Run Tests
+
+```bash
+# Install Playwright browsers (first time only)
+bun playwright install chromium
+
+# Run all tests
+bun test
+
+# Run with visible browser
+bun test:headed
+
+# Interactive mode
+bun test:ui
+```
+
+### agent-browser Integration
+
+Test Agent Tasks with [agent-browser](https://github.com/vercel-labs/agent-browser):
+
+```bash
+# Authenticate as user and open in browser
+./scripts/agent-browser-clerk.sh user_123 https://clerk-plapi-2.crafter.run
+
+# With visible browser
+./scripts/agent-browser-clerk.sh user_123 https://clerk-plapi-2.crafter.run --headed
+```
+
+Requires `CLERK_SECRET_KEY` environment variable.
 
 ## Deployment
 
 Deployed on [Vercel](https://vercel.com) at [clerk-plapi-2.crafter.run](https://clerk-plapi-2.crafter.run)
+
+**Post-deployment**: Configure Proxy URL in Clerk Dashboard (see Proxy Configuration above)
 
 ## License
 
