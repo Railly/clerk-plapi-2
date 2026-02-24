@@ -178,8 +178,8 @@ export default function Home() {
               </SignedOut>
               <SignedIn>
                 <Button size="lg" className="gap-2" asChild>
-                  <a href="https://clerk.com/docs/platform-api" target="_blank" rel="noopener noreferrer">
-                    Read the docs
+                  <a href="/dashboard">
+                    Go to Dashboard
                     <ArrowRight className="h-4 w-4" />
                   </a>
                 </Button>
