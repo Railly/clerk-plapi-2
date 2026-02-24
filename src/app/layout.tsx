@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{ baseTheme: dark }}
-      proxyUrl="https://clerk-plapi-2.crafter.run/__clerk"
+      proxyUrl={process.env.NEXT_PUBLIC_CLERK_PROXY_URL}
     >
       <html lang="en" className="dark">
         <body
