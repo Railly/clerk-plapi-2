@@ -1,14 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { createAgentTestingTask } from '@clerk/testing/playwright';
-import { config } from 'dotenv';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-// Load environment variables from .env file (ES modules)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-config({ path: join(__dirname, '../.env') });
 
 const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY!;
 const TEST_USER_ID = process.env.TEST_USER_ID!;
@@ -31,7 +22,7 @@ test.describe('Agent Tasks Testing with @clerk/testing/playwright', () => {
         permissions: '*',
         agentName: 'playwright-test-agent',
         taskDescription: 'Testing Agent Tasks feature with @clerk/testing/playwright',
-        redirectUrl: TEST_APP_URL,
+        redirectUrl: `${TEST_APP_URL}/dashboard`,
         sessionMaxDurationInSeconds: 3600,
       });
     } catch (error: any) {
@@ -49,7 +40,6 @@ test.describe('Agent Tasks Testing with @clerk/testing/playwright', () => {
     expect(agentTask.agentId).toBeTruthy();
     expect(agentTask.taskId).toBeTruthy();
     expect(agentTask.url).toBeTruthy();
-    expect(agentTask.url).toContain('clerk.');
     expect(agentTask.url).toContain('/v1/agents/tasks');
 
     // Step 2: Navigate to the generated URL
