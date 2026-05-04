@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import {
   ArrowRight,
   Code2,
@@ -28,7 +28,9 @@ function CodeBlock() {
       </div>
       <pre className="overflow-x-auto p-4 font-mono text-sm leading-relaxed">
         <code>
-          <span className="text-muted-foreground">{"# Create app with dev + prod instances\n"}</span>
+          <span className="text-muted-foreground">
+            {"# Create app with dev + prod instances\n"}
+          </span>
           <span className="text-emerald-400">{"$ "}</span>
           <span className="text-foreground">{"clerk apps create"}</span>
           {" \\\n"}
@@ -45,7 +47,9 @@ function CodeBlock() {
           {"    "}
           <span className="text-sky-400">{"-o"}</span>
           {" json\n\n"}
-          <span className="text-muted-foreground">{"# Response (30 seconds)\n"}</span>
+          <span className="text-muted-foreground">
+            {"# Response (30 seconds)\n"}
+          </span>
           <span className="text-amber-400">{"{"}</span>
           {"\n"}
           {"  "}
@@ -57,17 +61,14 @@ function CodeBlock() {
           <span className="text-sky-400">{'"instances"'}</span>
           {": [\n"}
           {"    "}
-          <span className="text-amber-400">{"{"}</span>
-          {" "}
+          <span className="text-amber-400">{"{"}</span>{" "}
           <span className="text-sky-400">{'"environment_type"'}</span>
           {": "}
-          <span className="text-emerald-400">{'"development"'}</span>
-          {" "}
+          <span className="text-emerald-400">{'"development"'}</span>{" "}
           <span className="text-amber-400">{"}"}</span>
           {",\n"}
           {"    "}
-          <span className="text-amber-400">{"{"}</span>
-          {" "}
+          <span className="text-amber-400">{"{"}</span>{" "}
           <span className="text-sky-400">{'"environment_type"'}</span>
           {": "}
           <span className="text-emerald-400">{'"production"'}</span>
@@ -136,16 +137,16 @@ export default function Home() {
             <span className="font-semibold tracking-tight">PLAPI Demo</span>
           </div>
           <div className="flex items-center gap-3">
-            <SignedOut>
+            <Show when="signed-out">
               <SignInButton>
                 <Button variant="ghost" size="sm">
                   Sign in
                 </Button>
               </SignInButton>
-            </SignedOut>
-            <SignedIn>
+            </Show>
+            <Show when="signed-in">
               <UserButton />
-            </SignedIn>
+            </Show>
           </div>
         </div>
       </nav>
@@ -168,22 +169,22 @@ export default function Home() {
               fast.
             </p>
             <div className="flex items-center gap-3">
-              <SignedOut>
+              <Show when="signed-out">
                 <SignInButton>
                   <Button size="lg" className="gap-2">
                     Get started
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </SignInButton>
-              </SignedOut>
-              <SignedIn>
+              </Show>
+              <Show when="signed-in">
                 <Button size="lg" className="gap-2" asChild>
                   <a href="/dashboard">
                     Go to Dashboard
                     <ArrowRight className="h-4 w-4" />
                   </a>
                 </Button>
-              </SignedIn>
+              </Show>
               <Button variant="outline" size="lg" asChild>
                 <a
                   href="https://github.com/crafter-station/clerk-plapi-2"
