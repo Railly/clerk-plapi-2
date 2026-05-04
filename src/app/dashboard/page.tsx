@@ -1,11 +1,15 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { UserButton } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { UserButton } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
+
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { ClientProbe } from "./client-probe";
 
 export default async function DashboardPage() {
-  const { userId } = await auth();
+  const { sessionId, userId } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
@@ -80,9 +84,19 @@ export default async function DashboardPage() {
                     </span>
                   </div>
                 )}
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Session ID:
+                  </span>
+                  <code className="rounded bg-muted px-2 py-0.5 text-sm font-mono">
+                    {sessionId}
+                  </code>
+                </div>
               </div>
             </CardContent>
           </Card>
+
+          <ClientProbe />
 
           {/* Agent Tasks Info */}
           <Card>
